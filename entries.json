@@ -1,0 +1,86 @@
+[
+  {
+    "date": "2025-04-09",
+    "company": "Broad market / Trump Media",
+    "ticker": "DJT",
+    "platform": "Truth Social",
+    "quote": "THIS IS A GREAT TIME TO BUY!!! DJT",
+    "context": "Posted at 9:37am, less than four hours before Trump announced a 90-day pause on most tariffs. Markets surged on the pause; the S&P 500 closed up 9.5% and Trump Media (ticker DJT) closed up 22.67% that day.",
+    "flag": "Followed by a 90-day tariff pause hours later",
+    "flagType": "rust",
+    "source": "PBS NewsHour",
+    "url": "https://www.pbs.org/newshour/politics/trump-told-investors-to-buy-on-social-media-hours-before-his-tariff-pause-rose-stocks-raising-questions-about-manipulation"
+  },
+  {
+    "date": "2026-02-19",
+    "company": "Dell Technologies",
+    "ticker": "DELL",
+    "platform": "Speech",
+    "quote": "Go out and buy a Dell computer.",
+    "context": "Said during economic remarks at a rally in Rome, Georgia. Nine days earlier, Trump's disclosed trades show a purchase of $1 million to $5 million in Dell stock.",
+    "flag": "Bought stock 9 days before the remarks",
+    "flagType": "rust",
+    "source": "Washington Examiner",
+    "url": "https://www.washingtonexaminer.com/news/white-house/4583562/trump-praised-companies-within-days-of-buying-their-stock/"
+  },
+  {
+    "date": "2026-03-11",
+    "company": "Thermo Fisher Scientific",
+    "ticker": "TMO",
+    "platform": "Speech",
+    "quote": "It's a great honor being here. It's a great company.",
+    "context": "Said while touring a Thermo Fisher facility in Reading, Ohio. Trump bought between $15,000 and $50,000 of Thermo Fisher stock that same day.",
+    "flag": "Bought stock the same day",
+    "flagType": "rust",
+    "source": "Washington Examiner",
+    "url": "https://www.washingtonexaminer.com/news/white-house/4583562/trump-praised-companies-within-days-of-buying-their-stock/"
+  },
+  {
+    "date": "2026-03-11",
+    "company": "Apple",
+    "ticker": "AAPL",
+    "platform": "Speech",
+    "quote": "Apple, a great company... Who the hell else could have done this? Nobody else.",
+    "context": "Said at a rally in Hebron, Kentucky. Trump bought between $250,000 and $500,000 of Apple stock that same day.",
+    "flag": "Bought stock the same day",
+    "flagType": "rust",
+    "source": "Washington Examiner",
+    "url": "https://www.washingtonexaminer.com/news/white-house/4583562/trump-praised-companies-within-days-of-buying-their-stock/"
+  },
+  {
+    "date": "2026-03-26",
+    "company": "Micron Technology",
+    "ticker": "MU",
+    "platform": "TV interview",
+    "quote": "I just left the head of Micron. It's one of the hottest companies.",
+    "context": "Said on Fox News' \"The Five,\" a day after disclosed trades show Trump bought between $50,000 and $100,000 of Micron stock.",
+    "flag": "Bought stock the day before",
+    "flagType": "rust",
+    "source": "Washington Examiner",
+    "url": "https://www.washingtonexaminer.com/news/white-house/4583562/trump-praised-companies-within-days-of-buying-their-stock/"
+  },
+  {
+    "date": "2026-04-10",
+    "company": "Palantir Technologies",
+    "ticker": "PLTR",
+    "platform": "Truth Social",
+    "quote": "Palantir Technologies (PLTR) has proven to have great war fighting capabilities and equipment. Just ask our enemies!!!",
+    "context": "Posted as Palantir stock headed into its worst week in over a year amid the Iran conflict. Came weeks after Trump's account built a Palantir position in Q1 2026.",
+    "flag": "Praise followed Q1 trading activity in the stock",
+    "flagType": "rust",
+    "source": "CNBC",
+    "url": "https://www.cnbc.com/2026/04/10/trump-pltr-palantir-stock-iran-war.html"
+  },
+  {
+    "date": "2026-05-08",
+    "company": "Dell Technologies",
+    "ticker": "DELL",
+    "platform": "Speech",
+    "quote": "Better than other computers.",
+    "context": "Said at a Mother's Day luncheon while thanking the Dell family by name. Dell's stock hit a record high the day of the remarks.",
+    "flag": "Repeated praise; stock hit record high same day",
+    "flagType": "rust",
+    "source": "Washington Examiner",
+    "url": "https://www.washingtonexaminer.com/news/white-house/4583562/trump-praised-companies-within-days-of-buying-their-stock/"
+  }
+]

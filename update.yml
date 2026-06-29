@@ -1,0 +1,33 @@
+name: Update stock praise tracker
+
+on:
+  schedule:
+    - cron: "0 13 * * *"   # 13:00 UTC daily — adjust as you like
+  workflow_dispatch: {}     # lets you also click "Run workflow" manually
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests anthropic
+
+      - name: Run tracker update
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python update_tracker.py
+
+      - name: Commit changes if any
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-update tracker data"
+          file_pattern: data/entries.json
