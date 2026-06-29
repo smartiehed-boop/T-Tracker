@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Praise Ledger</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
+
+  :root{
+    --paper:#F6F2E7;
+    --paper-2:#EFE9D8;
+    --ink:#1C2030;
+    --ink-soft:#4B4E5C;
+    --hair:#D9D2BC;
+    --gold:#B68A30;
+    --gold-deep:#7A5A1C;
+    --teal:#2F5F52;
+    --teal-bg:#E2EAE3;
+    --rust:#9B3B2C;
+    --rust-bg:#F3E2DC;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  .wrap{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    border:1px solid var(--hair);
+    border-radius:4px;
+    overflow:hidden;
+  }
+
+  /* Masthead */
+  .masthead{
+    padding:28px 32px 22px;
+    border-bottom:2px solid var(--ink);
+    background:var(--paper-2);
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--gold-deep);
+    margin:0 0 8px;
+  }
+  h1{
+    font-family:'Source Serif 4',serif;
+    font-weight:700;
+    font-size:30px;
+    margin:0 0 6px;
+    line-height:1.15;
+    color:var(--ink);
+  }
+  .dek{
+    font-size:14px;
+    color:var(--ink-soft);
+    margin:0;
+    max-width:560px;
+    line-height:1.5;
+  }
+
+  /* Ticker */
+  .ticker-band{
+    background:var(--ink);
+    overflow:hidden;
+    white-space:nowrap;
+    position:relative;
+    border-bottom:2px solid var(--ink);
+  }
+  .ticker-track{
+    display:inline-flex;
+    animation:scroll 38s linear infinite;
+    padding:9px 0;
+  }
+  @keyframes scroll{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+  .tick{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:#E8E3D2;
+    padding:0 22px;
+    border-right:1px solid #3A3E50;
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+  }
+  .tick b{color:var(--gold);font-weight:600;}
+
+  /* Stats */
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:var(--hair);
+  }
+  .stat{
+    background:var(--paper);
+    padding:16px 18px;
+  }
+  .stat .num{
+    font-family:'Source Serif 4',serif;
+    font-size:26px;
+    font-weight:700;
+    color:var(--ink);
+    line-height:1;
+  }
+  .stat .lbl{
+    font-size:11px;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    margin-top:5px;
+  }
+
+  /* Controls */
+  .controls{
+    padding:18px 32px 14px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    align-items:center;
+    border-bottom:1px solid var(--hair);
+  }
+  #search{
+    flex:1;
+    min-width:200px;
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    padding:9px 12px;
+    border:1px solid var(--hair);
+    border-radius:3px;
+    background:#fff;
+    color:var(--ink);
+  }
+  #search:focus{outline:1px solid var(--gold);}
+  .pill{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    padding:7px 12px;
+    border:1px solid var(--hair);
+    border-radius:20px;
+    background:#fff;
+    color:var(--ink-soft);
+    cursor:pointer;
+    user-select:none;
+  }
+  .pill.active{
+    background:var(--ink);
+    color:var(--paper);
+    border-color:var(--ink);
+  }
+  #sortBtn{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    padding:7px 12px;
+    border:1px solid var(--hair);
+    border-radius:3px;
+    background:#fff;
+    cursor:pointer;
+    color:var(--ink-soft);
+  }
+
+  /* Ledger */
+  .ledger{padding:6px 32px 28px;}
+  .entry{
+    border-bottom:1px solid var(--hair);
+    padding:16px 0;
+    cursor:pointer;
+  }
+  .entry:last-child{border-bottom:none;}
+  .row1{
+    display:flex;
+    gap:14px;
+    align-items:baseline;
+  }
+  .date{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    min-width:78px;
+    flex-shrink:0;
+  }
+  .co{
+    font-family:'Source Serif 4',serif;
+    font-weight:600;
+    font-size:16px;
+    color:var(--ink);
+  }
+  .ticker-tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--gold-deep);
+  }
+  .platform{
+    margin-left:auto;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    border:1px solid var(--hair);
+    padding:2px 8px;
+    border-radius:20px;
+    white-space:nowrap;
+  }
+  .quote{
+    font-family:'Source Serif 4',serif;
+    font-style:italic;
+    font-size:15px;
+    color:var(--ink);
+    margin:8px 0 6px 92px;
+    line-height:1.45;
+  }
+  .meta-row{
+    margin:0 0 0 92px;
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    align-items:center;
+  }
+  .flag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    padding:3px 9px;
+    border-radius:3px;
+    background:var(--rust-bg);
+    color:var(--rust);
+  }
+  .flag.clean{
+    background:var(--teal-bg);
+    color:var(--teal);
+  }
+  .more{
+    display:none;
+    margin:10px 0 0 92px;
+    font-size:13px;
+    color:var(--ink-soft);
+    line-height:1.6;
+    max-width:560px;
+  }
+  .more a{color:var(--gold-deep);text-decoration:underline;}
+  .entry.open .more{display:block;}
+  .caret{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+  }
+
+  .empty{
+    padding:40px 0;
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:13px;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .footnote{
+    padding:14px 32px 22px;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    border-top:1px solid var(--hair);
+    line-height:1.6;
+  }
+
+  @media(max-width:600px){
+    .stats{grid-template-columns:repeat(2,1fr);}
+    .quote, .meta-row, .more{margin-left:0;margin-top:8px;}
+    .row1{flex-wrap:wrap;}
+    .platform{margin-left:0;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <p class="eyebrow">Public record &middot; cross-referenced with OGE disclosures</p>
+    <h1>The Praise Ledger</h1>
+    <p class="dek">Every documented instance of President Trump publicly praising a specific stock or company &mdash; on Truth Social, in speeches, or on TV &mdash; matched against his disclosed personal trades in that stock.</p>
+    <p id="freshness" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-soft);margin:10px 0 0;"></p>
+  </div>
+
+  <div class="ticker-band">
+    <div class="ticker-track" id="tickerTrack"></div>
+  </div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="controls">
+    <input id="search" type="text" placeholder="Search a company, ticker, or word from a quote…">
+    <div class="pill active" data-platform="all">All</div>
+    <div class="pill" data-platform="Truth Social">Truth Social</div>
+    <div class="pill" data-platform="Speech">Speech</div>
+    <div class="pill" data-platform="TV interview">TV interview</div>
+    <div id="sortBtn">Date ↓</div>
+  </div>
+
+  <div class="ledger" id="ledger"></div>
+
+  <div class="footnote">
+    Not exhaustive &mdash; this is a manually researched starting set, current to late June 2026. Trade values are reported in disclosure ranges, not exact figures, as required under the STOCK Act. No confirmed June 2026 stock-praise instance turned up in this round of research; that's a gap in my search, not necessarily in his actual statements. For a continuously updated version of this same idea, Hudson Labs runs a daily-refreshed dataset of companies Trump has publicly praised, tracked against stock performance, at hudson-labs.com/research/trump-praised-companies. Tell me a date, platform, or company and I'll search for more entries to add here.
+  </div>
+</div>
+
+<script>
+const seedData = [
+  {
+    date: "2025-04-09",
+    company: "Broad market / Trump Media",
+    ticker: "DJT",
+    platform: "Truth Social",
+    quote: "THIS IS A GREAT TIME TO BUY!!! DJT",
+    context: "Posted at 9:37am, less than four hours before Trump announced a 90-day pause on most tariffs. Markets surged on the pause; the S&P 500 closed up 9.5% and Trump Media (ticker DJT, in which Trump holds a majority stake via a family trust) closed up 22.67% that day. The post's sign-off, his own initials, is also the company's ticker symbol. Democratic lawmakers including Sen. Adam Schiff called for an investigation into possible market manipulation or insider trading.",
+    flag: "Followed by a 90-day tariff pause hours later",
+    flagType: "rust",
+    source: "PBS NewsHour",
+    url: "https://www.pbs.org/newshour/politics/trump-told-investors-to-buy-on-social-media-hours-before-his-tariff-pause-rose-stocks-raising-questions-about-manipulation"
+  },
+  {
+    date: "2026-02-19",
+    company: "Dell Technologies",
+    ticker: "DELL",
+    platform: "Speech",
+    quote: "Go out and buy a Dell computer.",
+    context: "Said during economic remarks at a rally in Rome, Georgia, where Trump also called Dell products \u201cgreat\u201d and praised CEO Michael Dell and his wife Susan as \u201cphenomenal people.\u201d Nine days earlier, on Feb. 10, Trump's disclosed trades show a purchase of $1 million to $5 million in Dell stock.",
+    flag: "Bought stock 9 days before the remarks",
+    flagType: "rust",
+    source: "Washington Examiner",
+    url: "https://www.washingtonexaminer.com/news/white-house/4583562/trump-praised-companies-within-days-of-buying-their-stock/"
+  },
+  {
+    date: "2026-03-11",
+    company: "Thermo Fisher Scientific",
+    ticker: "TMO",
+    platform: "Speech",
+    quote: "It's a great honor being here. It's a great company.",
+    context: "Said while touring a Thermo Fisher manufacturing facility in Reading, Ohio, marking the company's $2 billion U.S. manufacturing reshoring push. Trump bought between $15,000 and $50,000 of Thermo Fisher stock that same day, on top of earlier purchases on Feb. 12 and March 2.",
+    flag: "Bought stock the same day",
+    flagType: "rust",
+    source: "Washington Examiner",
+    url: "https://www.washingtonexaminer.com/news/white-house/4583562/trump-praised-companies-within-days-of-buying-their-stock/"
+  },
+  {
+    date: "2026-03-11",
+    company: "Apple",
+    ticker: "AAPL",
+    platform: "Speech",
+    quote: "Apple, a great company\u2026 Who the hell else could have done this? Nobody else. I say it kiddingly, but I'm actually not kidding. Nobody else could.",
+    context: "Said at a rally in Hebron, Kentucky, while citing Apple's $2.5 billion glass-manufacturing deal with Corning's Kentucky factories. Trump bought between $250,000 and $500,000 of Apple stock that same day, part of roughly $7.2 million accumulated across six separate March purchases.",
+    flag: "Bought stock the same day",
+    flagType: "rust",
+    source: "Washington Examiner",
+    url: "https://www.washingtonexaminer.com/news/white-house/4583562/trump-praised-companies-within-days-of-buying-their-stock/"
+  },
+  {
+    date: "2026-03-26",
+    company: "Micron Technology",
+    ticker: "MU",
+    platform: "TV interview",
+    quote: "I just left the head of Micron. It's one of the hottest companies.",
+    context: "Said during a phone interview on Fox News' \u201cThe Five,\u201d a day after disclosed trades show Trump bought between $50,000 and $100,000 of Micron stock on March 25. He built a position of up to $530,000 in Micron across six transactions between March 2 and March 25.",
+    flag: "Bought stock the day before",
+    flagType: "rust",
+    source: "Washington Examiner",
+    url: "https://www.washingtonexaminer.com/news/white-house/4583562/trump-praised-companies-within-days-of-buying-their-stock/"
+  },
+  {
+    date: "2026-04-10",
+    company: "Palantir Technologies",
+    ticker: "PLTR",
+    platform: "Truth Social",
+    quote: "Palantir Technologies (PLTR) has proven to have great war fighting capabilities and equipment. Just ask our enemies!!!",
+    context: "Posted as Palantir stock headed into its worst week in over a year, down 14%, amid the Iran conflict and renewed short-seller pressure from Michael Burry. The post came weeks after Trump's account built a Palantir position in Q1 2026 (as much as $530,000 in March alone) and sold up to $5 million worth on Feb. 10. Days earlier, in February, DHS had awarded Palantir a blanket purchase agreement worth up to $1 billion.",
+    flag: "Praise followed Q1 trading activity in the stock",
+    flagType: "rust",
+    source: "CNBC",
+    url: "https://www.cnbc.com/2026/04/10/trump-pltr-palantir-stock-iran-war.html"
+  },
+  {
+    date: "2026-05-08",
+    company: "Dell Technologies",
+    ticker: "DELL",
+    platform: "Speech",
+    quote: "Better than other computers.",
+    context: "Said at a Mother's Day luncheon while thanking the Dell family by name for their philanthropic gift to Trump Accounts. Dell's stock hit a record high the day of the remarks and was up as much as 140% year-to-date.",
+    flag: "Repeated praise; stock hit record high same day",
+    flagType: "rust",
+    source: "Washington Examiner",
+    url: "https://www.washingtonexaminer.com/news/white-house/4583562/trump-praised-companies-within-days-of-buying-their-stock/"
+  }
+];
+
+let data = seedData;
+let state = { platform: "all", sortDesc: true, query: "" };
+let lastUpdated = null;
+
+function fmtDate(d){
+  const dt = new Date(d + "T00:00:00");
+  return dt.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+}
+
+function render(){
+  const stats = document.getElementById('stats');
+  const total = data.length;
+  const companies = new Set(data.map(d=>d.company)).size;
+  const flagged = data.filter(d=>d.flagType==='rust').length;
+  const platforms = new Set(data.map(d=>d.platform)).size;
+  stats.innerHTML = `
+    <div class="stat"><div class="num">${total}</div><div class="lbl">Tracked mentions</div></div>
+    <div class="stat"><div class="num">${companies}</div><div class="lbl">Companies/stocks</div></div>
+    <div class="stat"><div class="num">${flagged}</div><div class="lbl">Near a disclosed trade</div></div>
+    <div class="stat"><div class="num">${platforms}</div><div class="lbl">Platforms used</div></div>
+  `;
+
+  const trackHtml = data.map(d=>`<span class="tick">${d.ticker} &middot; <b>${fmtDate(d.date)}</b></span>`).join('');
+  document.getElementById('tickerTrack').innerHTML = trackHtml + trackHtml;
+
+  let rows = data.filter(d=>{
+    if(state.platform !== 'all' && d.platform !== state.platform) return false;
+    if(state.query){
+      const q = state.query.toLowerCase();
+      const hay = (d.company + ' ' + d.ticker + ' ' + d.quote + ' ' + d.context).toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  rows.sort((a,b)=> state.sortDesc ? new Date(b.date)-new Date(a.date) : new Date(a.date)-new Date(b.date));
+
+  const ledger = document.getElementById('ledger');
+  if(rows.length === 0){
+    ledger.innerHTML = `<div class="empty">No entries match that search.</div>`;
+    return;
+  }
+  ledger.innerHTML = rows.map((d,i)=>`
+    <div class="entry" data-idx="${i}">
+      <div class="row1">
+        <span class="date">${fmtDate(d.date)}</span>
+        <span class="co">${d.company}</span>
+        <span class="ticker-tag">${d.ticker}</span>
+        <span class="platform">${d.platform}</span>
+      </div>
+      <p class="quote">\u201c${d.quote}\u201d</p>
+      <div class="meta-row">
+        <span class="flag ${d.flagType==='teal'?'clean':''}">${d.flag}</span>
+        <span class="caret">read more &darr;</span>
+      </div>
+      <div class="more">${d.context} &mdash; <a href="${d.url}" target="_blank" rel="noopener">${d.source}</a></div>
+    </div>
+  `).join('');
+
+  ledger.querySelectorAll('.entry').forEach(el=>{
+    el.addEventListener('click', ()=> el.classList.toggle('open'));
+  });
+}
+
+document.querySelectorAll('.pill').forEach(p=>{
+  p.addEventListener('click', ()=>{
+    document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
+    p.classList.add('active');
+    state.platform = p.dataset.platform;
+    render();
+  });
+});
+
+document.getElementById('sortBtn').addEventListener('click', ()=>{
+  state.sortDesc = !state.sortDesc;
+  document.getElementById('sortBtn').textContent = state.sortDesc ? 'Date ↓' : 'Date ↑';
+  render();
+});
+
+document.getElementById('search').addEventListener('input', (e)=>{
+  state.query = e.target.value.trim();
+  render();
+});
+
+function setFreshness(text){
+  const el = document.getElementById('freshness');
+  if(el) el.textContent = text;
+}
+
+async function loadData(){
+  setFreshness('Loading latest data…');
+  try{
+    const res = await fetch('./data/entries.json', { cache: 'no-store' });
+    if(!res.ok) throw new Error('no file');
+    const fresh = await res.json();
+    if(Array.isArray(fresh) && fresh.length){
+      data = fresh;
+      setFreshness('Live data loaded from data/entries.json · ' + fresh.length + ' entries');
+    } else {
+      throw new Error('empty file');
+    }
+  } catch(err){
+    data = seedData;
+    setFreshness('Showing built-in snapshot — live data/entries.json not found alongside this file.');
+  }
+  render();
+}
+
+loadData();
+</script>
+</body>
+</html>
